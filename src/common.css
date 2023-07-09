@@ -17,6 +17,10 @@
     display: revert;
 }
 
+img {
+    all: revert;
+}
+
 body {
     font-family: var(--font-primary);
     background-color: var(--color-background);

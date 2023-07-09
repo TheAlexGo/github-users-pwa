@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const EslintWebpackPlugin = require('eslint-webpack-plugin');
 const StylelintWebpackPlugin = require('stylelint-webpack-plugin');
+const DotEnv = require('dotenv-webpack');
 
 module.exports = {
     mode: process.env.NODE_ENV || 'production',
@@ -42,11 +43,9 @@ module.exports = {
         new StylelintWebpackPlugin({
             files: '{**/*,*}.css',
         }),
+        new DotEnv(),
     ],
     devServer: {
-        client: {
-            overlay: false,
-        },
         open: true,
     },
 };
