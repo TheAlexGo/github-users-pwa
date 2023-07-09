@@ -7,12 +7,13 @@ import {
     createBrowserRouter,
     createRoutesFromElements,
 } from 'react-router-dom';
+
+import { Layout } from '../Layout/Layout';
 import { UserProfilePage } from '../UserProfilePage/UserProfilePage';
 import { UsersPage } from '../UsersPage/UsersPage';
 import { UsersSearchPage } from '../UsersSearchPage/UsersSearchPage';
 import { getFullUser, IFullUserResponse } from '../../utils/api';
 import { fullUserResponseConvert } from '../../utils/converts';
-import { Layout } from '../Layout/Layout';
 
 const loadingUserPage = async ({ params }: { params: Params<'username'> }) => {
     const fullUserResponse: IFullUserResponse = await getFullUser(params.username!);

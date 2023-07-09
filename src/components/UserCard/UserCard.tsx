@@ -1,5 +1,6 @@
 import React, { FC, JSX } from 'react';
 import { Link } from 'react-router-dom';
+
 import { getUserLink } from '../../utils/routes';
 import { repositoryPluralize } from '../../utils/words';
 import { IUserCard } from '../../types';

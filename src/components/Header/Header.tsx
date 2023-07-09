@@ -1,5 +1,6 @@
 import React, { FC, FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
+
 import './Header.css';
 
 export const Header: FC = () => {

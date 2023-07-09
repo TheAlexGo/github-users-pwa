@@ -1,6 +1,7 @@
 import React, { FC, JSX } from 'react';
-import { IRepository } from '../../types';
 import { Link } from 'react-router-dom';
+
+import { IRepository } from '../../types';
 
 export const RepositoryCard: FC<IRepository> = ({ title, description, url }): JSX.Element => {
     const renderDescription = (): JSX.Element | null => {

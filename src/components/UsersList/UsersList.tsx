@@ -1,7 +1,8 @@
 import React, { FC, useState, useEffect } from 'react';
+
+import { UserCard } from '../UserCard/UserCard';
 import { getUsers } from '../../utils/api';
 import { usersResponseToCardsConvert } from '../../utils/converts';
-import { UserCard } from '../UserCard/UserCard';
 import { IUserCard } from '../../types';
 
 import './UsersList.css';

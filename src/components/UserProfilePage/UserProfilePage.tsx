@@ -1,9 +1,11 @@
 import React, { FC } from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
-import { IFullUser } from '../../types';
-import './UserProfilePage.css';
+
 import { repositoryFollowers, repositoryFollowing } from '../../utils/words';
 import { RepositoryCard } from '../RepositoryCard/RepositoryCard';
+import { IFullUser } from '../../types';
+
+import './UserProfilePage.css';
 
 export const UserProfilePage: FC = () => {
     const { username, image, name, followers, following, siteUrl, repositories } = useLoaderData() as IFullUser;
