@@ -11,7 +11,8 @@ code_quality:
         - npm run eslint
         - npm run stylelint
         - npm run prettier
-    only: merge_requests
+    only:
+        - merge_requests
 
 build:
     image: node:19.5.0
