@@ -28,7 +28,6 @@ build:
     only:
         - merge_requests
         - master
-        - main
 
 deploy:
     image: alpine:latest
@@ -47,5 +46,5 @@ deploy:
     script:
         - rsync -a --delete dist/ alex@135.181.80.44:/home/alex/github-users
     only:
+        - merge_requests
         - master
-        - main
