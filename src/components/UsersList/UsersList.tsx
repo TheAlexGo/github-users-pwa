@@ -9,7 +9,7 @@ export const UsersList: FC = () => {
                     <div className="users-list__image-container">
                         <img
                             className="users-list__image"
-                            src="http://placeimg.com/640/480/any"
+                            src="https://placehold.co/640x480"
                             alt="defunkt profile photo"
                         />
                     </div>
