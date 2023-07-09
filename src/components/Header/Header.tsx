@@ -1,4 +1,5 @@
 import React, { FC, FormEvent, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Header.css';
 
 export const Header: FC = () => {
@@ -19,9 +20,9 @@ export const Header: FC = () => {
                 <nav className="header__navigation">
                     <ul className="header__navigation-list">
                         <li className="header__navigation-list-item">
-                            <a href="/" className="header__navigation-link">
+                            <Link to="/" className="header__navigation-link">
                                 Пользователи гитхаба
-                            </a>
+                            </Link>
                         </li>
                         <li className="header__navigation-list-item">
                             <a className="header__navigation-link header__navigation-link--user">defunct</a>

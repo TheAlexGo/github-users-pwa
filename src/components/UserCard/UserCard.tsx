@@ -2,16 +2,9 @@ import React, { FC, JSX } from 'react';
 import { Link } from 'react-router-dom';
 import { getUserLink } from '../../utils/routes';
 import { repositoryPluralize } from '../../utils/words';
+import { IUserCard } from '../../types';
 
-export interface IUserCard {
-    id: number;
-    image: string;
-    username: string;
-    repositoriesCount?: number;
-    organization?: string;
-}
-
-export const UserCard: FC<IUserCard> = ({ id, image, username, repositoriesCount = 0, organization }): JSX.Element => {
+export const UserCard: FC<IUserCard> = ({ image, username, repositoriesCount = 0, organization }): JSX.Element => {
     const renderOrganization = (): JSX.Element | null => {
         if (organization) {
             return <p className="users-list__text">{organization}</p>;
@@ -28,10 +21,10 @@ export const UserCard: FC<IUserCard> = ({ id, image, username, repositoriesCount
             </div>
             <div className="users-list__content">
                 <h2 className="users-list__title">
-                    <Link to={getUserLink(id)} className="link">
+                    <Link to={getUserLink(username)} className="link">
                         {username}
                     </Link>
-                    , {repositoryPluralize(repositoriesCount)}
+                    , {repositoryPluralize(repositoriesCount).join(' ')}
                 </h2>
                 {renderOrganization()}
             </div>

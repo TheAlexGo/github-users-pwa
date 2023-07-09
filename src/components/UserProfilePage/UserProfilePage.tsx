@@ -1,66 +1,71 @@
 import React, { FC } from 'react';
+import { Link, useLoaderData } from 'react-router-dom';
+import { IFullUser } from '../../types';
 import './UserProfilePage.css';
-import { Header } from '../Header/Header';
+import { repositoryFollowers, repositoryFollowing } from '../../utils/words';
+import { RepositoryCard } from '../RepositoryCard/RepositoryCard';
 
 export const UserProfilePage: FC = () => {
+    const { username, image, name, followers, following, siteUrl, repositories } = useLoaderData() as IFullUser;
+
+    const imageAlt = `${username} profile photo`;
+
+    const repositoriesUrl = `https://github.com/${username}?tab=repositories`;
+
+    const renderFollowers = () => {
+        const [count, word] = repositoryFollowers(followers);
+        return (
+            <>
+                <span className="user-profile__accent">{count}</span> {word} ·{' '}
+            </>
+        );
+    };
+
+    const renderFollowing = () => {
+        const [count, word] = repositoryFollowing(following);
+        return (
+            <>
+                <span className="user-profile__accent">{count}</span> {word} ·{' '}
+            </>
+        );
+    };
+
     return (
-        <>
-            <Header />
+        <main>
+            <div className="container">
+                <section className="user-profile">
+                    <div className="user-profile__image-container">
+                        <img className="user-profile__image" src={image} alt={imageAlt} />
+                    </div>
+                    <div className="user-profile__content">
+                        <h1 className="user-profile__title">
+                            {name}, <span className="user-profile__accent">{username}</span>
+                        </h1>
+                        <p className="user-profile__text">
+                            {renderFollowers()}
+                            {renderFollowing()}
+                            <Link to={siteUrl} className="link" target="_blank">
+                                {siteUrl}
+                            </Link>
+                        </p>
+                    </div>
+                </section>
 
-            <main>
-                <div className="container">
-                    <section className="user-profile">
-                        <div className="user-profile__image-container">
-                            <img
-                                className="user-profile__image"
-                                src="http://placeimg.com/640/480/any"
-                                alt="defunkt profile photo"
-                            />
-                        </div>
-                        <div className="user-profile__content">
-                            <h1 className="user-profile__title">
-                                Chris Wanstrath, <span className="user-profile__accent">defunct</span>
-                            </h1>
-                            <p className="user-profile__text">
-                                <span className="user-profile__accent">21.3k</span> followers ·{' '}
-                                <span className="user-profile__accent">210</span> following ·{' '}
-                                <a href="http://chriswanstrath.com/" className="link">
-                                    http://chriswanstrath.com/
-                                </a>
-                            </p>
-                        </div>
-                    </section>
+                <section className="repository-list">
+                    <div className="repository-list__header">
+                        <h2 className="repository-list__title">Репозитории</h2>
+                        <Link to={repositoriesUrl} className="link" target="_blank" rel="noreferrer">
+                            Все репозитории
+                        </Link>
+                    </div>
 
-                    <section className="repository-list">
-                        <div className="repository-list__header">
-                            <h2 className="repository-list__title">Репозитории</h2>
-                            <a
-                                href="https://github.com/defunkt?tab=repositories"
-                                className="link"
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                Все репозитории
-                            </a>
-                        </div>
-
-                        <div className="repository-list__container">
-                            {[1, 2, 3, 4, 5].map((item) => (
-                                <section className="repository-list__item" key={item}>
-                                    <h3 className="repository-list__item-title">
-                                        <a href="/" className="link">
-                                            body_matcher
-                                        </a>
-                                    </h3>
-                                    <p className="repository-list__item-text">
-                                        Simplify your view testing. Forget assert_select.
-                                    </p>
-                                </section>
-                            ))}
-                        </div>
-                    </section>
-                </div>
-            </main>
-        </>
+                    <div className="repository-list__container">
+                        {repositories.map((repository) => (
+                            <RepositoryCard key={repository.id} {...repository} />
+                        ))}
+                    </div>
+                </section>
+            </div>
+        </main>
     );
 };

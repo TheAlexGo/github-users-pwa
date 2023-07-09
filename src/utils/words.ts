@@ -1,16 +1,10 @@
 /**
- * 1: репозиторий
- * 2-4: репозитория
- * n: репозиториев
- *
- * 1: подписчик
- * 2-4: подписчика
- * n: подписчиков
- * @param count - количество элементов
+ * Склоняем слово, в зависимости от количества его объектов
+ * @param count - количество объектов
  * @param words - массив слов, из которых будем выбирать подходящий вариант
  */
-export const pluralize = (count: number, words: string[]): string => {
-    const unit = Math.abs(count) % 10;
+export const pluralize = (count: number, words: string[]): [string, string] => {
+    const unit = 11 <= count % 100 && count % 100 <= 14 ? count : Math.abs(count) % 10;
     let result;
     switch (unit) {
         case 1:
@@ -24,8 +18,14 @@ export const pluralize = (count: number, words: string[]): string => {
         default:
             result = words[2];
     }
-    return `${count} ${result}`;
+    return [count.toString(), result];
 };
 
-export const repositoryPluralize = (count: number): string =>
+export const repositoryPluralize = (count: number): [string, string] =>
     pluralize(count, ['репозиторий', 'репозитория', 'репозиториев']);
+
+export const repositoryFollowers = (count: number): [string, string] =>
+    pluralize(count, ['подписчик', 'подписчика', 'подписчиков']);
+
+export const repositoryFollowing = (count: number): [string, string] =>
+    pluralize(count, ['подписка', 'подписки', 'подписок']);

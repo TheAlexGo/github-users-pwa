@@ -1,5 +1,3 @@
-enum Paths {
-    USERS = 'users',
-}
+import { Paths } from '../types';
 
-export const getUserLink = (id: number): string => `${Paths.USERS}/${id}`;
+export const getUserLink = (username: string): string => `${Paths.USERS}/${username}`;
