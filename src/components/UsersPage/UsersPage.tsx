@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
+import { Await, useLoaderData } from 'react-router-dom';
 
 import { UsersList } from '../UsersList/UsersList';
 import { Loader } from '../Loader/Loader';
-import { Await, useLoaderData } from 'react-router-dom';
 import { IUserCard } from '../../types';
 
 export const UsersPage: FC = () => {
