@@ -6,6 +6,7 @@ import {
     RouterProvider,
     createBrowserRouter,
     createRoutesFromElements,
+    defer,
 } from 'react-router-dom';
 
 import { Layout } from '../Layout/Layout';
@@ -17,12 +18,16 @@ import { fullUserResponseConvert, usersResponseToCardsConvert } from '../../util
 
 const loadingUsersPage = async () => {
     const usersResponse: IUserResponse[] = await getUsers();
-    return await usersResponseToCardsConvert(usersResponse);
+    return defer({
+        users: usersResponseToCardsConvert(usersResponse),
+    });
 };
 
 const loadingUserProfilePage = async ({ params }: { params: Params<'username'> }) => {
     const fullUserResponse: IFullUserResponse = await getFullUser(params.username!);
-    return await fullUserResponseConvert(fullUserResponse);
+    return defer({
+        user: fullUserResponseConvert(fullUserResponse),
+    });
 };
 
 export const App: FC = () => {

@@ -1,19 +1,30 @@
 import React, { FC } from 'react';
+import { Await, useLoaderData } from 'react-router-dom';
 
 import { UserCard } from '../UserCard/UserCard';
+import { Loader } from '../Loader/Loader';
 import { IUserCard } from '../../types';
 
 import './UsersList.css';
-import { useLoaderData } from 'react-router-dom';
 
 export const UsersList: FC = () => {
-    const users = useLoaderData() as IUserCard[];
+    const data = useLoaderData() as { users: IUserCard[] };
+
+    const renderComponent = (users: IUserCard[]) => {
+        return (
+            <div className="users-list">
+                {users.map((user) => (
+                    <UserCard key={user.id} {...user} />
+                ))}
+            </div>
+        );
+    };
 
     return (
-        <div className="users-list">
-            {users.map((user) => (
-                <UserCard key={user.id} {...user} />
-            ))}
-        </div>
+        <React.Suspense fallback={<Loader />}>
+            <Await resolve={data.users} errorElement={<>Error fetch data</>}>
+                {renderComponent}
+            </Await>
+        </React.Suspense>
     );
 };

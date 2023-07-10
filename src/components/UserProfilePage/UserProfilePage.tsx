@@ -1,48 +1,66 @@
-import React, { FC } from 'react';
-import { Link, useLoaderData } from 'react-router-dom';
+import React, { FC, JSX } from 'react';
+import { Await, Link, useLoaderData } from 'react-router-dom';
 
-import { repositoryFollowers, repositoryFollowing } from '../../utils/words';
+import { Loader } from '../Loader/Loader';
 import { RepositoryCard } from '../RepositoryCard/RepositoryCard';
+import { repositoryFollowers, repositoryFollowing } from '../../utils/words';
 import { IFullUser } from '../../types';
 
 import './UserProfilePage.css';
 
 export const UserProfilePage: FC = () => {
-    const { username, image, name, followers, following, siteUrl, repositories } = useLoaderData() as IFullUser;
+    const data = useLoaderData() as { user: IFullUser };
 
-    const imageAlt = `${username} profile photo`;
+    const renderComponent = (user: IFullUser) => {
+        const { username, image, name, followers, following, siteUrl, repositories } = user;
 
-    const repositoriesUrl = `https://github.com/${username}?tab=repositories`;
+        const imageAlt = `${username} profile photo`;
 
-    const renderFollowers = () => {
-        const [count, word] = repositoryFollowers(followers);
+        const repositoriesUrl = `https://github.com/${username}?tab=repositories`;
+
+        const renderFollowers = () => {
+            const [count, word] = repositoryFollowers(followers);
+            return (
+                <>
+                    <span className="user-profile__accent">{count}</span> {word} ·{' '}
+                </>
+            );
+        };
+
+        const renderFollowing = () => {
+            const [count, word] = repositoryFollowing(following);
+            return (
+                <>
+                    <span className="user-profile__accent">{count}</span> {word} ·{' '}
+                </>
+            );
+        };
+
+        const renderUsername = () => {
+            const result: JSX.Element[] = [];
+            if (name) {
+                result.push(
+                    <React.Fragment key="name">
+                        {name} {', '}
+                    </React.Fragment>,
+                );
+            }
+            result.push(
+                <span key="username" className="user-profile__accent">
+                    {username}
+                </span>,
+            );
+            return result;
+        };
+
         return (
-            <>
-                <span className="user-profile__accent">{count}</span> {word} ·{' '}
-            </>
-        );
-    };
-
-    const renderFollowing = () => {
-        const [count, word] = repositoryFollowing(following);
-        return (
-            <>
-                <span className="user-profile__accent">{count}</span> {word} ·{' '}
-            </>
-        );
-    };
-
-    return (
-        <main>
             <div className="container">
                 <section className="user-profile">
                     <div className="user-profile__image-container">
                         <img className="user-profile__image" src={image} alt={imageAlt} />
                     </div>
                     <div className="user-profile__content">
-                        <h1 className="user-profile__title">
-                            {name}, <span className="user-profile__accent">{username}</span>
-                        </h1>
+                        <h1 className="user-profile__title">{renderUsername()}</h1>
                         <p className="user-profile__text">
                             {renderFollowers()}
                             {renderFollowing()}
@@ -68,6 +86,16 @@ export const UserProfilePage: FC = () => {
                     </div>
                 </section>
             </div>
+        );
+    };
+
+    return (
+        <main>
+            <React.Suspense fallback={<Loader />}>
+                <Await resolve={data.user} errorElement={<>Error fetch data</>}>
+                    {renderComponent}
+                </Await>
+            </React.Suspense>
         </main>
     );
 };

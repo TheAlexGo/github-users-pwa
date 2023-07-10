@@ -40,7 +40,6 @@ export const fullUserResponseConvert = async (user: IFullUserResponse): Promise<
     const fullUserData: IFullUserResponse = await getFullUser(user.login);
     const repositoriesData: IRepositoryResponse[] = await getRepositories(user.repos_url);
     const repositories: IRepository[] = repositoriesResponseConvert(repositoriesData);
-    console.log(fullUserData);
     return {
         id: user.id,
         image: user.avatar_url,
