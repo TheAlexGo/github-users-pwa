@@ -2,6 +2,7 @@
     margin-bottom: 50px;
     display: flex;
     align-items: center;
+    flex-flow: row wrap;
 }
 
 .user-profile__image-container {
@@ -17,7 +18,7 @@
 
 .user-profile__title {
     font-family: var(--font-accent);
-        font-size: 30px;
+    font-size: 30px;
     text-transform: uppercase;
 }
 
@@ -48,13 +49,13 @@
 
 .repository-list__container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0%, 1fr));
     gap: 20px;
 }
 
 .repository-list__item {
     padding: 16px;
-border: 1px solid var(--color-grey-light);
+    border: 1px solid var(--color-grey-light);
     border-radius: 8px;
 }
 
@@ -65,4 +66,15 @@ border: 1px solid var(--color-grey-light);
 
 .repository-list__item-text {
     font-size: 13px;
+    word-break: break-word;
+}
+
+@media screen and (width <= 420px) {
+    .repository-list__title {
+        font-size: 20px;
+    }
+
+    .link-all {
+        font-size: 12px;
+    }
 }
