@@ -54,7 +54,7 @@ export const UserProfilePage: FC = () => {
         };
 
         return (
-            <div className="container">
+            <>
                 <section className="user-profile">
                     <div className="user-profile__image-container">
                         <img className="user-profile__image" src={image} alt={imageAlt} />
@@ -85,17 +85,19 @@ export const UserProfilePage: FC = () => {
                         ))}
                     </div>
                 </section>
-            </div>
+            </>
         );
     };
 
     return (
         <main>
-            <React.Suspense fallback={<Loader />}>
-                <Await resolve={data.user} errorElement={<>Error fetch data</>}>
-                    {renderComponent}
-                </Await>
-            </React.Suspense>
+            <div className="container">
+                <React.Suspense fallback={<Loader />}>
+                    <Await resolve={data.user} errorElement={<>Error fetch data</>}>
+                        {renderComponent}
+                    </Await>
+                </React.Suspense>
+            </div>
         </main>
     );
 };
