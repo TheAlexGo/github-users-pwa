@@ -1,15 +1,16 @@
 import React, { ChangeEvent, FC, FormEvent, useState } from 'react';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 import { getSearchLink } from '../../utils/routes';
 
 import './Header.css';
 
 export const Header: FC = () => {
-    const [searchValue, setSearchValue] = useState('');
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const { username } = useParams();
+    const [searchParams] = useSearchParams();
+    const [searchValue, setSearchValue] = useState(searchParams.get('query') || '');
 
     const changeHandler = ({ currentTarget }: ChangeEvent<HTMLInputElement>) => {
         setSearchValue(currentTarget.value);
