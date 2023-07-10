@@ -41,8 +41,8 @@ deploy:
         - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
         - chmod 600 ~/.ssh/known_hosts
     environment:
-        name: dev
-    resource_group: dev
+        name: production
+    resource_group: production
     script:
         - rsync -a --delete dist/ alex@135.181.80.44:/home/alex/github-users
     only:
