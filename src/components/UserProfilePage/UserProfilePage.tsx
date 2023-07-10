@@ -3,7 +3,7 @@ import { Await, Link, useLoaderData } from 'react-router-dom';
 
 import { Loader } from '../Loader/Loader';
 import { RepositoryCard } from '../RepositoryCard/RepositoryCard';
-import { repositoryFollowers, repositoryFollowing } from '../../utils/words';
+import { followersPluralize, followingPluralize, roundThousands } from '../../utils/words';
 import { IFullUser } from '../../types';
 
 import './UserProfilePage.css';
@@ -31,19 +31,19 @@ export const UserProfilePage: FC = () => {
         }, [siteUrl]);
 
         const renderFollowers = () => {
-            const [count, word] = repositoryFollowers(followers);
+            const [count, word] = followersPluralize(followers);
             return (
                 <>
-                    <span className="user-profile__accent">{count}</span> {word} ·{' '}
+                    <span className="user-profile__accent">{roundThousands(count)}</span> {word} ·{' '}
                 </>
             );
         };
 
         const renderFollowing = () => {
-            const [count, word] = repositoryFollowing(following);
+            const [count, word] = followingPluralize(following);
             return (
                 <>
-                    <span className="user-profile__accent">{count}</span> {word} ·{' '}
+                    <span className="user-profile__accent">{roundThousands(count)}</span> {word} ·{' '}
                 </>
             );
         };

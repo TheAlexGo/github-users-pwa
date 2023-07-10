@@ -2,9 +2,13 @@
  * Склоняем слово, в зависимости от количества его объектов
  * @param count - количество объектов
  * @param words - массив слов, из которых будем выбирать подходящий вариант
+ * @param withRoundThousands - округляем тысячи
  */
-export const pluralize = (count: number, words: string[]): [string, string] => {
-    const unit = 11 <= count % 100 && count % 100 <= 14 ? count : Math.abs(count) % 10;
+export const pluralize = (count: number, words: string[], withRoundThousands = false): [number, string] => {
+    const unit =
+        (11 <= count % 100 && count % 100 <= 14) || (withRoundThousands && count >= 1000)
+            ? count
+            : Math.abs(count) % 10;
     let result;
     switch (unit) {
         case 1:
@@ -18,14 +22,21 @@ export const pluralize = (count: number, words: string[]): [string, string] => {
         default:
             result = words[2];
     }
-    return [count.toString(), result];
+    return [count, result];
 };
 
-export const repositoryPluralize = (count: number): [string, string] =>
+export const repositoryPluralize = (count: number): [number, string] =>
     pluralize(count, ['репозиторий', 'репозитория', 'репозиториев']);
 
-export const repositoryFollowers = (count: number): [string, string] =>
-    pluralize(count, ['подписчик', 'подписчика', 'подписчиков']);
+export const followersPluralize = (count: number): [number, string] =>
+    pluralize(count, ['подписчик', 'подписчика', 'подписчиков'], true);
 
-export const repositoryFollowing = (count: number): [string, string] =>
-    pluralize(count, ['подписка', 'подписки', 'подписок']);
+export const followingPluralize = (count: number): [number, string] =>
+    pluralize(count, ['подписка', 'подписки', 'подписок'], true);
+
+export const roundThousands = (count: number): string => {
+    if (count < 1000) {
+        return count.toString();
+    }
+    return (count / 1000).toFixed(1) + 'k';
+};
