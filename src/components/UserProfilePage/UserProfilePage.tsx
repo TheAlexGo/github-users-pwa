@@ -62,11 +62,7 @@ export const UserProfilePage: FC = () => {
         const renderUsername = () => {
             const result: JSX.Element[] = [];
             if (name) {
-                result.push(
-                    <React.Fragment key="name">
-                        {name} {', '}
-                    </React.Fragment>,
-                );
+                result.push(<React.Fragment key="name">{name}, </React.Fragment>);
             }
             result.push(
                 <span key="username" className="user-profile__accent">
@@ -95,7 +91,7 @@ export const UserProfilePage: FC = () => {
                 <section className="repository-list">
                     <div className="repository-list__header">
                         <h2 className="repository-list__title">Репозитории</h2>
-                        <Link to={repositoriesUrl} className="link" target="_blank" rel="noreferrer">
+                        <Link to={repositoriesUrl} className="link link-all" target="_blank" rel="noreferrer">
                             Все репозитории
                         </Link>
                     </div>

@@ -45,6 +45,7 @@ body {
 
 .link {
     color: var(--color-accent);
+    word-break: break-word;
     text-decoration: underline;
     font-weight: inherit;
     cursor: pointer;
