@@ -15,6 +15,7 @@ import { UsersPage } from '../UsersPage/UsersPage';
 import { UsersSearchPage } from '../UsersSearchPage/UsersSearchPage';
 import { getFullUser, getUsers, IFullUserResponse, IUserResponse, searchUsers } from '../../utils/api';
 import { fullUserResponseConvert, usersResponseToCardsConvert } from '../../utils/converts';
+import { Paths } from '../../types';
 
 const loadingUsers = async () => {
     const usersResponsePromise: Promise<IUserResponse[]> = getUsers();
@@ -52,11 +53,11 @@ export const App: FC = () => {
                     <Route element={<Layout />}>
                         <Route path="/">
                             <Route index loader={loadingUsers} element={<UsersPage />} />
-                            <Route path="users">
+                            <Route path={Paths.USERS}>
                                 <Route index loader={loadingUsers} element={<UsersPage />} />
                                 <Route path=":username" loader={loadingUserProfilePage} element={<UserProfilePage />} />
                             </Route>
-                            <Route path="search" loader={loadingSearchUsers} element={<UsersSearchPage />} />
+                            <Route path={Paths.SEARCH} loader={loadingSearchUsers} element={<UsersSearchPage />} />
                             <Route path="*" element={<Navigate to="/" />} />
                         </Route>
                     </Route>,
