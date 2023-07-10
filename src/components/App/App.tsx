@@ -13,20 +13,34 @@ import { Layout } from '../Layout/Layout';
 import { UserProfilePage } from '../UserProfilePage/UserProfilePage';
 import { UsersPage } from '../UsersPage/UsersPage';
 import { UsersSearchPage } from '../UsersSearchPage/UsersSearchPage';
-import { getFullUser, getUsers, IFullUserResponse, IUserResponse } from '../../utils/api';
+import { getFullUser, getUsers, IFullUserResponse, IUserResponse, searchUsers } from '../../utils/api';
 import { fullUserResponseConvert, usersResponseToCardsConvert } from '../../utils/converts';
 
-const loadingUsersPage = async () => {
-    const usersResponse: IUserResponse[] = await getUsers();
+const loadingUsers = async () => {
+    const usersResponsePromise: Promise<IUserResponse[]> = getUsers();
     return defer({
-        users: usersResponseToCardsConvert(usersResponse),
+        users: usersResponsePromise.then(usersResponseToCardsConvert),
     });
 };
 
 const loadingUserProfilePage = async ({ params }: { params: Params<'username'> }) => {
-    const fullUserResponse: IFullUserResponse = await getFullUser(params.username!);
+    const fullUserResponsePromise: Promise<IFullUserResponse> = getFullUser(params.username!);
     return defer({
-        user: fullUserResponseConvert(fullUserResponse),
+        user: fullUserResponsePromise.then(fullUserResponseConvert),
+    });
+};
+
+const loadingSearchUsers = async ({ request }: { request: Request }) => {
+    const url = new URL(request.url);
+    const username = url.searchParams.get('query');
+    let usersResponsePromise: Promise<IUserResponse[]>;
+    if (username) {
+        usersResponsePromise = searchUsers(username!);
+    } else {
+        usersResponsePromise = getUsers();
+    }
+    return defer({
+        users: usersResponsePromise.then(usersResponseToCardsConvert),
     });
 };
 
@@ -37,12 +51,12 @@ export const App: FC = () => {
                 createRoutesFromElements(
                     <Route element={<Layout />}>
                         <Route path="/">
-                            <Route index loader={loadingUsersPage} element={<UsersPage />} />
+                            <Route index loader={loadingUsers} element={<UsersPage />} />
                             <Route path="users">
-                                <Route index loader={loadingUsersPage} element={<UsersPage />} />
+                                <Route index loader={loadingUsers} element={<UsersPage />} />
                                 <Route path=":username" loader={loadingUserProfilePage} element={<UserProfilePage />} />
                             </Route>
-                            <Route path="search" element={<UsersSearchPage />} />
+                            <Route path="search" loader={loadingSearchUsers} element={<UsersSearchPage />} />
                             <Route path="*" element={<Navigate to="/" />} />
                         </Route>
                     </Route>,

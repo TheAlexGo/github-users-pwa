@@ -28,6 +28,7 @@ export interface IFullUserResponse extends IUserResponse {
     following: number;
     name: string | null;
     blog: string | null;
+    company: string | null;
 }
 
 export const octokit = new Octokit({
@@ -45,28 +46,6 @@ export const getRepositories = async (link: string): Promise<IRepositoryResponse
             per_page: REPOSITORIES_PER_PAGE,
         })
     ).data;
-};
-
-/**
- * Получаем список организаций по ссылке (ссылку получаем, например, от пользователя)
- * @param {string} link
- * @return {Promise<IOrganizationResponse[]>} список организаций
- */
-export const getOrganizations = async (link: string): Promise<IOrganizationResponse[]> => {
-    return (await octokit.request(`GET ${link}`)).data;
-};
-
-/**
- * Получаем первую организацию по ссылке (ссылку получаем, например, от пользователя)
- * @param {string} link
- * @return {Promise<IOrganizationResponse | null>} объект организации или null
- */
-export const getFirstOrganization = async (link: string): Promise<IOrganizationResponse | null> => {
-    const organizations: IOrganizationResponse[] = await getOrganizations(link);
-    if (organizations.length > 0) {
-        return organizations[0];
-    }
-    return null;
 };
 
 /**
@@ -92,4 +71,12 @@ export const getFullUser = async (username: string): Promise<IFullUserResponse> 
             username,
         })
     ).data;
+};
+
+export const searchUsers = async (username: string): Promise<IUserResponse[]> => {
+    return (
+        await octokit.request('GET /search/users', {
+            q: username,
+        })
+    ).data.items;
 };

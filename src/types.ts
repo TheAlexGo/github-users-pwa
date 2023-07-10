@@ -1,5 +1,6 @@
 export enum Paths {
     USERS = 'users',
+    SEARCH = 'search',
 }
 
 export interface IRepository {

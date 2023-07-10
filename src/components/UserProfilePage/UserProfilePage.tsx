@@ -1,4 +1,4 @@
-import React, { FC, JSX } from 'react';
+import React, { FC, JSX, useMemo } from 'react';
 import { Await, Link, useLoaderData } from 'react-router-dom';
 
 import { Loader } from '../Loader/Loader';
@@ -18,6 +18,18 @@ export const UserProfilePage: FC = () => {
 
         const repositoriesUrl = `https://github.com/${username}?tab=repositories`;
 
+        const currentSiteUrl: string | null = useMemo(() => {
+            if (!siteUrl) {
+                return null;
+            }
+            try {
+                const { href } = new URL(siteUrl);
+                return href;
+            } catch (e) {
+                return `https://${siteUrl}`;
+            }
+        }, [siteUrl]);
+
         const renderFollowers = () => {
             const [count, word] = repositoryFollowers(followers);
             return (
@@ -34,6 +46,17 @@ export const UserProfilePage: FC = () => {
                     <span className="user-profile__accent">{count}</span> {word} ·{' '}
                 </>
             );
+        };
+
+        const renderSiteUrl = (): JSX.Element | null => {
+            if (currentSiteUrl) {
+                return (
+                    <Link to={currentSiteUrl} className="link" target="_blank">
+                        {currentSiteUrl}
+                    </Link>
+                );
+            }
+            return null;
         };
 
         const renderUsername = () => {
@@ -64,9 +87,7 @@ export const UserProfilePage: FC = () => {
                         <p className="user-profile__text">
                             {renderFollowers()}
                             {renderFollowing()}
-                            <Link to={siteUrl} className="link" target="_blank">
-                                {siteUrl}
-                            </Link>
+                            {renderSiteUrl()}
                         </p>
                     </div>
                 </section>

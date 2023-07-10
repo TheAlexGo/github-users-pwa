@@ -1,10 +1,19 @@
-import React, { FC, FormEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { ChangeEvent, FC, FormEvent, useState } from 'react';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+
+import { getSearchLink } from '../../utils/routes';
 
 import './Header.css';
 
 export const Header: FC = () => {
     const [searchValue, setSearchValue] = useState('');
+    const navigate = useNavigate();
+    const { pathname } = useLocation();
+    const { username } = useParams();
+
+    const changeHandler = ({ currentTarget }: ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(currentTarget.value);
+    };
     const onSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -12,7 +21,32 @@ export const Header: FC = () => {
             return;
         }
 
-        console.log(searchValue);
+        navigate({
+            pathname: getSearchLink(),
+            search: `?query=${searchValue}`,
+        });
+    };
+
+    const renderSecondCrumb = () => {
+        let title;
+        switch (pathname) {
+            case getSearchLink():
+                title = 'поиск';
+                break;
+            default:
+                title = '';
+        }
+        if (username) {
+            title = username;
+        }
+        if (title) {
+            return (
+                <li className="header__navigation-list-item">
+                    <a className="header__navigation-link header__navigation-link--user">{title}</a>
+                </li>
+            );
+        }
+        return null;
     };
 
     return (
@@ -25,9 +59,7 @@ export const Header: FC = () => {
                                 Пользователи гитхаба
                             </Link>
                         </li>
-                        <li className="header__navigation-list-item">
-                            <a className="header__navigation-link header__navigation-link--user">defunct</a>
-                        </li>
+                        {renderSecondCrumb()}
                     </ul>
                 </nav>
 
@@ -38,7 +70,7 @@ export const Header: FC = () => {
                             className="header__search-input"
                             placeholder="Поиск пользователя"
                             value={searchValue}
-                            onChange={(event) => setSearchValue(event.currentTarget.value)}
+                            onChange={changeHandler}
                         />
                         <button type="submit" className="header__search-button">
                             Найти

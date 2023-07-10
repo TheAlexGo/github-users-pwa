@@ -1,11 +1,4 @@
-import {
-    IUserResponse,
-    getFirstOrganization,
-    getFullUser,
-    IFullUserResponse,
-    IRepositoryResponse,
-    getRepositories,
-} from './api';
+import { IUserResponse, getFullUser, IFullUserResponse, IRepositoryResponse, getRepositories } from './api';
 import { IFullUser, IRepository, IUserCard } from '../types';
 
 /**
@@ -59,13 +52,12 @@ export const fullUserResponseConvert = async (user: IFullUserResponse): Promise<
  */
 export const userResponseToCardConvert = async (user: IUserResponse): Promise<IUserCard> => {
     const fullUserData: IFullUserResponse = await getFullUser(user.login);
-    const organization = await getFirstOrganization(user.organizations_url);
     return {
         id: user.id,
         image: user.avatar_url,
         username: user.login,
         repositoriesCount: fullUserData.public_repos,
-        organization: organization?.login || '',
+        organization: fullUserData.company || '',
     };
 };
 
