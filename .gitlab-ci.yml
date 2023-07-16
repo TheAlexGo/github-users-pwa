@@ -19,9 +19,11 @@ build:
     image: node:19.5.0
     stage: build
     before_script:
+        - echo "GITHUB_TOKEN=$GITHUB_TOKEN" >> .env
         - npm ci
     script:
         - npm run build
+        - rm .env
     artifacts:
         paths:
             - dist
