@@ -9,9 +9,7 @@ code_quality:
     before_script:
         - npm ci
     script:
-        - npm run eslint
-        - npm run stylelint
-        - npm run prettier
+        - npm run lint
     only:
         - merge_requests
 
