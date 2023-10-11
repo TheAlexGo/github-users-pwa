@@ -13,11 +13,13 @@ code_quality:
 pages:
     stage: deploy
     before_script:
+        - echo "GITHUB_TOKEN=$GITHUB_TOKEN" >> .env
         - npm ci
     script:
         - npm run build
         - rm -rf public
         - cp -r dist public
+        - rm .env
     artifacts:
         paths:
             - public
