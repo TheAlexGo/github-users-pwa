@@ -2,12 +2,14 @@
     "scripts": {
         "start": "NODE_ENV=development webpack serve --stats-children",
         "build": "webpack",
-        "eslint": "npx eslint --ext .ts,.tsx,.js ./",
-        "eslint:fix": "npx eslint --ext .ts,.tsx,.js ./ --fix",
-        "prettier": "prettier --check ./",
-        "prettier:fix": "prettier --write ./",
-        "stylelint": "npx stylelint \"src/{**/*,*}.css\"",
-        "stylelint:fix": "npx stylelint \"src/{**/*,*}.css\" --fix"
+        "lint": "npm-run-all --aggregate-output --continue-on-error --parallel \"lint:!(fix)\"",
+        "lint:fix": "npm-run-all --aggregate-output --continue-on-error --parallel \"lint:*:fix\"",
+        "lint:eslint": "npx eslint --ext .ts,.tsx ./",
+        "lint:eslint:fix": "npx eslint --ext .ts,.tsx ./ --fix",
+        "lint:prettier": "prettier --check ./",
+        "lint:prettier:fix": "prettier --write ./",
+        "lint:stylelint": "npx stylelint \"src/{**/*,*}.css\"",
+        "lint:stylelint:fix": "npx stylelint \"src/{**/*,*}.css\" --fix"
     },
     "dependencies": {
         "dotenv": "^16.3.1",
@@ -32,6 +34,7 @@
         "eslint-plugin-react": "^7.33.2",
         "eslint-webpack-plugin": "^4.0.1",
         "html-webpack-plugin": "^5.5.3",
+        "npm-run-all": "^4.1.5",
         "pre-commit": "^1.2.2",
         "prettier": "^3.0.3",
         "react-router-dom": "^6.16.0",
@@ -49,8 +52,6 @@
         "workbox-webpack-plugin": "^7.0.0"
     },
     "pre-commit": [
-        "stylelint",
-        "eslint",
-        "prettier"
+        "lint"
     ]
 }
