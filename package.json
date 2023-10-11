@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "start": "NODE_ENV=development webpack serve",
+        "start": "NODE_ENV=development webpack serve --stats-children",
         "build": "webpack",
         "eslint": "npx eslint --ext .ts,.tsx,.js ./",
         "eslint:fix": "npx eslint --ext .ts,.tsx,.js ./ --fix",
@@ -45,6 +45,7 @@
         "webpack": "^5.88.2",
         "webpack-cli": "^5.1.4",
         "webpack-dev-server": "^4.15.1",
+        "webpack-webmanifest-loader": "^2.0.2",
         "workbox-webpack-plugin": "^7.0.0"
     },
     "pre-commit": [
