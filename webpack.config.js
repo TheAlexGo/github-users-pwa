@@ -59,7 +59,7 @@ module.exports = {
             clientsClaim: true,
             skipWaiting: true,
             maximumFileSizeToCacheInBytes: 3145728,
-            exclude: [/\.(?:png|jpg|jpeg|svg)$/],
+            exclude: [/\.(?:png|jpg|jpeg|svg)$/, /service-worker\.js$/],
 
             runtimeCaching: [
                 {

@@ -11,4 +11,13 @@
     <body>
         <div id="root"></div>
     </body>
+    <script>
+        // Проверяем поддержку СВ
+        if ('serviceWorker' in navigator) {
+            // Используем событие `load` объекта `window` для определения момента полной загрузки страницы
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js');
+            });
+        }
+    </script>
 </html>
